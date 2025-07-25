@@ -1,0 +1,25 @@
+package com.escrituraa.Api.ForoHub.controller;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+//indica que es una clase de control
+@RestController
+//Indicar la URI a manejar
+@RequestMapping("/usuarios")
+public class UsuarioController {
+
+    //Método para usar un verbo de http en espécifico,
+    //para realizar una acción puntual
+    //anotación para indicar que se registraran los medicos
+    @PostMapping
+    //Proceso para recibir los datos
+    public void registrar(@RequestBody String json){
+        System.out.println(json);
+
+
+    }
+
+}
