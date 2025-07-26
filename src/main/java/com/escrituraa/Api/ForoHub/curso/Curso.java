@@ -2,9 +2,15 @@ package com.escrituraa.Api.ForoHub.curso;
 
 import com.escrituraa.Api.ForoHub.topico.Topico;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Entity(name ="Curso")
 @Table(name = "cursos")
 public class Curso {

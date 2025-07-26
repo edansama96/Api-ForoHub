@@ -2,9 +2,15 @@ package com.escrituraa.Api.ForoHub.perfil;
 
 import com.escrituraa.Api.ForoHub.usuario.Usuario;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Entity(name = "Perfil")
 @Table(name = "perfiles")
 public class Perfil {

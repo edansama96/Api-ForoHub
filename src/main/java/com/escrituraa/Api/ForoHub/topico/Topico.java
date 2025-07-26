@@ -4,12 +4,17 @@ import com.escrituraa.Api.ForoHub.curso.Curso;
 import com.escrituraa.Api.ForoHub.respuesta.Respuesta;
 import com.escrituraa.Api.ForoHub.usuario.Usuario;
 import jakarta.persistence.*;
+import lombok.*;
 
 
 import java.time.LocalDate;
 import java.util.List;
 
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Entity(name = "Topico")
 @Table(name = "topicos")
 public class Topico {
