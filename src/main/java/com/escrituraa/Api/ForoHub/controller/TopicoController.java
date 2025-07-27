@@ -5,6 +5,7 @@ import com.escrituraa.Api.ForoHub.topico.Topico;
 import com.escrituraa.Api.ForoHub.topico.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +21,8 @@ public class TopicoController {
     //anotación para indicar que se registraran los medicos
     @PostMapping
     //Proceso para recibir los datos
-    public  void registrarTopico(@RequestMapping DatosRegistroTopico topico){
-        repository.save(new Topico());
+    public  void registrarTopico(@RequestBody DatosRegistroTopico topico){
+        repository.save(new Topico(topico));
     }
 
 

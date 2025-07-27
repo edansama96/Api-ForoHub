@@ -21,13 +21,13 @@ public class Perfil {
 
     private String nombre;
 
-    @ManyToMany(mappedBy = "perfil", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "perfiles", fetch = FetchType.LAZY)
     private List<Usuario> usuario;
 
     public Perfil(DatosPerfil perfil){
         this.idP = null;
         this.nombre = perfil.nombre();
-        this.usuario = new ArrayList<>();
+
     }
 
 

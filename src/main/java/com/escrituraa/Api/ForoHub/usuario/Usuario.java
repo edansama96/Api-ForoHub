@@ -9,6 +9,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -27,7 +28,7 @@ public class Usuario {
     private String correoElectronico;
     private String contrasena;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "usuario_perfil",// nombre de la tabla intermedia
             joinColumns = @JoinColumn(name = "usuario_id"), // el cruce por id del usaurio
@@ -35,10 +36,10 @@ public class Usuario {
     )
     private Set<Perfil> perfiles;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY )
+    @OneToMany(mappedBy = "autor", fetch = FetchType.LAZY )
     private List<Respuesta> respuestas;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "autor", fetch = FetchType.LAZY)
     private List<Topico> topicos;
 
 
@@ -47,7 +48,11 @@ public class Usuario {
         this.nombre = usuario.nombre();
         this.correoElectronico = usuario.correoElectronico();
         this.contrasena = usuario.contrasena();
-        this.perfiles = (Set<Perfil>) new Perfil(usuario.datosPerfil());
+        // Convertir Set<DatosPerfil> a Set<Perfil>
+        this.perfiles = usuario.datosPerfil()
+                .stream()
+                .map(dp -> new Perfil(dp))
+                .collect(Collectors.toSet());
         // Inicializar como listas vacías si no vienen como parámetros
         this.respuestas = new ArrayList<>();
         this.topicos = new ArrayList<>();

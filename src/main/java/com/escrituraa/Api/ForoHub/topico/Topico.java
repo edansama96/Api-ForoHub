@@ -40,7 +40,7 @@ public class Topico {
         this.mensaje = topico.mensaje();
         this.fechaCreacion = topico.fechaCreacion();
         this.status = topico.status();
-        this.autor = new Usuario(topico.autor());
+        this.autor = topico.autor();
         this.curso = new Curso(topico.datosCurso());
         this.respuesta = (List<Respuesta>) new Respuesta(topico.datosRegistroRespuesta());
 
