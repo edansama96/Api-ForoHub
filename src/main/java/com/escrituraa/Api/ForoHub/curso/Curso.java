@@ -4,6 +4,7 @@ import com.escrituraa.Api.ForoHub.topico.Topico;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,4 +24,12 @@ public class Curso {
 
     @OneToMany(mappedBy = "curso", fetch = FetchType.LAZY)
     private List<Topico> topico;
+
+    public Curso(DatosCurso curso){
+        this.idC = null;
+        this.nombre = curso.nombre();
+        this.categoria = curso.categoria();
+        this.topico = new ArrayList<>();
+
+    }
 }

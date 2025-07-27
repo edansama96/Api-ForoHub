@@ -27,4 +27,14 @@ public class Respuesta {
     @ManyToOne
     private Usuario autor;
     private String solucion;
+
+
+    public Respuesta(DatosRegistroRespuesta respuesta) {
+        this.idR = null;
+        this.mensaje = respuesta.mensaje();
+        this.topico = new Topico(respuesta.datosRegistroTopico());
+        this.fechaCreacio = respuesta.fechaCreacion();
+        this.autor =  respuesta.autor();
+        this.solucion = solucion;
+    }
 }

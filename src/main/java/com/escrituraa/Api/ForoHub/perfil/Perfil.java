@@ -4,6 +4,7 @@ import com.escrituraa.Api.ForoHub.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,4 +23,13 @@ public class Perfil {
 
     @ManyToMany(mappedBy = "perfil", fetch = FetchType.LAZY)
     private List<Usuario> usuario;
+
+    public Perfil(DatosPerfil perfil){
+        this.idP = null;
+        this.nombre = perfil.nombre();
+        this.usuario = new ArrayList<>();
+    }
+
+
+
 }

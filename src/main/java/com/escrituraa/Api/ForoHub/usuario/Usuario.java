@@ -6,6 +6,7 @@ import com.escrituraa.Api.ForoHub.topico.Topico;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -41,4 +42,17 @@ public class Usuario {
     private List<Topico> topicos;
 
 
+    public Usuario(DatosRegistroUsuario usuario) {
+        this.idU=  null;
+        this.nombre = usuario.nombre();
+        this.correoElectronico = usuario.correoElectronico();
+        this.contrasena = usuario.contrasena();
+        this.perfiles = (Set<Perfil>) new Perfil(usuario.datosPerfil());
+        // Inicializar como listas vacías si no vienen como parámetros
+        this.respuestas = new ArrayList<>();
+        this.topicos = new ArrayList<>();
+
+
+
+    }
 }
