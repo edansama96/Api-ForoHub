@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,10 +50,20 @@ public class Usuario {
         this.correoElectronico = usuario.correoElectronico();
         this.contrasena = usuario.contrasena();
         // Convertir Set<DatosPerfil> a Set<Perfil>
-        this.perfiles = usuario.datosPerfil()
-                .stream()
-                .map(dp -> new Perfil(dp))
-                .collect(Collectors.toSet());
+//        this.perfiles = usuario.datosPerfil()
+//                .stream()
+//                .map(dp -> new Perfil(dp))
+//                .collect(Collectors.toSet());
+
+        if (usuario.datosPerfil() != null ){
+            this.perfiles = usuario.datosPerfil()
+                    .stream()
+                    .map(dp -> new Perfil(dp))
+                    .collect(Collectors.toSet());
+        }else{
+            this.perfiles = new HashSet<>();
+
+        }
         // Inicializar como listas vacías si no vienen como parámetros
         this.respuestas = new ArrayList<>();
         this.topicos = new ArrayList<>();
