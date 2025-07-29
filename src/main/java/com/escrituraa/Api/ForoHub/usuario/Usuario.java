@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity(name = "Usuario")
@@ -23,13 +23,13 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idU;
+    private Long id;
 
     private String nombre;
     private String correoElectronico;
     private String contrasena;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "usuario_perfil",// nombre de la tabla intermedia
             joinColumns = @JoinColumn(name = "usuario_id"), // el cruce por id del usaurio
@@ -43,9 +43,12 @@ public class Usuario {
     @OneToMany(mappedBy = "autor", fetch = FetchType.LAZY)
     private List<Topico> topicos;
 
+    public Usuario() {
+
+    }
 
     public Usuario(DatosRegistroUsuario usuario) {
-        this.idU=  null;
+        this.id=  null;
         this.nombre = usuario.nombre();
         this.correoElectronico = usuario.correoElectronico();
         this.contrasena = usuario.contrasena();

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity(name = "Topico")
@@ -33,6 +33,10 @@ public class Topico {
 
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Respuesta> respuesta;
+
+    public Topico() {
+
+    }
 
     public Topico(DatosRegistroTopico topico){
         this.idT = null;

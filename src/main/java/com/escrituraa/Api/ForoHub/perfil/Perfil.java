@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity(name = "Perfil")
@@ -17,15 +17,19 @@ import java.util.List;
 public class Perfil {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idP;
+    private Long id;
 
     private String nombre;
 
     @ManyToMany(mappedBy = "perfiles", fetch = FetchType.LAZY)
     private List<Usuario> usuario;
 
+    public Perfil(){
+
+    }
+
     public Perfil(DatosPerfil perfil){
-        this.idP = null;
+        this.id = null;
         this.nombre = perfil.nombre();
 
     }

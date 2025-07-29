@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity(name ="Curso")
@@ -24,6 +24,10 @@ public class Curso {
 
     @OneToMany(mappedBy = "curso", fetch = FetchType.LAZY)
     private List<Topico> topico;
+
+    public Curso() {
+
+    }
 
     public Curso(DatosCurso curso){
         this.idC = null;

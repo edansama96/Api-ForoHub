@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity(name = "Respuesta")
@@ -19,22 +19,25 @@ public class Respuesta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idR;
+    private Long id;
     private String mensaje;
     @ManyToOne
     private Topico topico;
     private LocalDate fechaCreacio;
     @ManyToOne
     private Usuario autor;
-    private String solucion;
+    private boolean solucion;
 
+    public Respuesta() {
+
+    }
 
     public Respuesta(DatosRegistroRespuesta respuesta) {
-        this.idR = null;
+        this.id = null;
         this.mensaje = respuesta.mensaje();
         this.topico = new Topico(respuesta.datosRegistroTopico());
         this.fechaCreacio = respuesta.fechaCreacion();
         this.autor =  respuesta.autor();
-        this.solucion = solucion;
+        this.solucion = respuesta.solucion();
     }
 }
