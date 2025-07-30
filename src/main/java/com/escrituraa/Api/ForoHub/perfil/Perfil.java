@@ -19,7 +19,7 @@ public class Perfil {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
+    private NombrePerfil nombre;
 
     @ManyToMany(mappedBy = "perfiles", fetch = FetchType.LAZY)
     private List<Usuario> usuario;
@@ -32,6 +32,9 @@ public class Perfil {
         this.id = null;
         this.nombre = perfil.nombre();
 
+    }
+    public Perfil(Long id){
+        this.id = id;
     }
 
 

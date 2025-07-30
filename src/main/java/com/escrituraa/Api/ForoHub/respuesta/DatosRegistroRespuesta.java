@@ -5,5 +5,9 @@ import com.escrituraa.Api.ForoHub.usuario.Usuario;
 
 import java.time.LocalDate;
 
-public record DatosRegistroRespuesta(String mensaje, DatosRegistroTopico datosRegistroTopico, LocalDate fechaCreacion, Usuario autor, boolean solucion) {
+public record DatosRegistroRespuesta(
+        String mensaje,
+        DatosRegistroTopico datosRegistroTopico,
+        LocalDate fechaCreacion, Usuario autor,
+        boolean solucion) {
 }

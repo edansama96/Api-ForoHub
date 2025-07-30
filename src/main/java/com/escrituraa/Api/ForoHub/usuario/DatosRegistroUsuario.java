@@ -4,5 +4,9 @@ import com.escrituraa.Api.ForoHub.perfil.DatosPerfil;
 
 import java.util.Set;
 
-public record DatosRegistroUsuario(String nombre, String correoElectronico, String contrasena, Set<DatosPerfil> datosPerfil) {
+public record DatosRegistroUsuario(
+        String nombre,
+        String correoElectronico,
+        String contrasena,
+        Set<Long> perfilesid ) {
 }

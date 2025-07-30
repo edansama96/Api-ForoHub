@@ -6,5 +6,10 @@ public enum Categoria {
     QUEJA,
     DUDA,
     SUGERENCIA,
+    PROGRAMACION,
+    DEVOPS,
+    DEVSECOPS,
+    FRONTEND,
+    BACKEND,
     PROYECTO
 }

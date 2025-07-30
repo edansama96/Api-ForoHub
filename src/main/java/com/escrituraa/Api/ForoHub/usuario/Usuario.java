@@ -31,7 +31,7 @@ public class Usuario {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
-            name = "usuario_perfil",// nombre de la tabla intermedia
+            name = "usuarios_perfiles",// nombre de la tabla intermedia
             joinColumns = @JoinColumn(name = "usuario_id"), // el cruce por id del usaurio
             inverseJoinColumns = @JoinColumn(name = "perfil_id")// el cruce por el id del perfil
     )
@@ -58,15 +58,24 @@ public class Usuario {
 //                .map(dp -> new Perfil(dp))
 //                .collect(Collectors.toSet());
 
-        if (usuario.datosPerfil() != null ){
-            this.perfiles = usuario.datosPerfil()
-                    .stream()
-                    .map(dp -> new Perfil(dp))
-                    .collect(Collectors.toSet());
-        }else{
-            this.perfiles = new HashSet<>();
+//        if (usuario.datosPerfil() != null ){
+//            this.perfiles = usuario.datosPerfil()
+//                    .stream()
+//                    .map(dp -> new Perfil(dp))
+//                    .collect(Collectors.toSet());
+//        }else{
+//            this.perfiles = new HashSet<>();
+//
+//        }
 
+        if (usuario.perfilesid() != null) {
+            this.perfiles = usuario.perfilesid()
+                    .stream()
+                    .map(Perfil::new) // se usa el constructor de Perfil(Long id)
+                    .collect(Collectors.toSet());
         }
+
+
         // Inicializar como listas vacías si no vienen como parámetros
         this.respuestas = new ArrayList<>();
         this.topicos = new ArrayList<>();

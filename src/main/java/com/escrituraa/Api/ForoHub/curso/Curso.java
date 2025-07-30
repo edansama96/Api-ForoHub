@@ -17,7 +17,7 @@ import java.util.List;
 public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idC;
+    private Long id;
     private String nombre;
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
@@ -30,8 +30,12 @@ public class Curso {
     }
 
     public Curso(DatosCurso curso){
-        this.idC = null;
-        this.nombre = curso.nombre();
+        this.id = null;
+        if(curso.nombre() == null){
+            throw new IllegalArgumentException("Datos del curso no pueden ser nulos");
+        }else {
+            this.nombre = curso.nombre();
+        }
         this.categoria = curso.categoria();
         this.topico = new ArrayList<>();
 

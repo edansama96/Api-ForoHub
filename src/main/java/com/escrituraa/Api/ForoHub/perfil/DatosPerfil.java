@@ -1,4 +1,5 @@
 package com.escrituraa.Api.ForoHub.perfil;
 
-public record DatosPerfil(String nombre) {
+public record DatosPerfil(
+        NombrePerfil nombre) {
 }

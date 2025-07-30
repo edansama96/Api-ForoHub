@@ -8,6 +8,7 @@ import lombok.*;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -21,11 +22,11 @@ public class Topico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idT;
+    private Long id;
     private String titulo;
     private String mensaje;
     private LocalDate fechaCreacion;
-    private String status;
+    private StatusTopico status;
     @ManyToOne
     private Usuario autor;
     @ManyToOne
@@ -39,14 +40,16 @@ public class Topico {
     }
 
     public Topico(DatosRegistroTopico topico){
-        this.idT = null;
+        this.id = null;
         this.titulo = topico.titulo();
         this.mensaje = topico.mensaje();
         this.fechaCreacion = topico.fechaCreacion();
         this.status = topico.status();
-        this.autor = topico.autor();
+        this.autor = new Usuario(topico.datosRegistroUsuarioautor());
         this.curso = new Curso(topico.datosCurso());
-        this.respuesta = (List<Respuesta>) new Respuesta(topico.datosRegistroRespuesta());
+        this.respuesta = new ArrayList<>();
+        this.respuesta.add(new Respuesta(topico.datosRegistroRespuesta()));
+
 
     }
 
