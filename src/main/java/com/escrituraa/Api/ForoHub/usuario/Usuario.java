@@ -52,30 +52,7 @@ public class Usuario {
         this.nombre = usuario.nombre();
         this.correoElectronico = usuario.correoElectronico();
         this.contrasena = usuario.contrasena();
-        // Convertir Set<DatosPerfil> a Set<Perfil>
-//        this.perfiles = usuario.datosPerfil()
-//                .stream()
-//                .map(dp -> new Perfil(dp))
-//                .collect(Collectors.toSet());
-
-//        if (usuario.datosPerfil() != null ){
-//            this.perfiles = usuario.datosPerfil()
-//                    .stream()
-//                    .map(dp -> new Perfil(dp))
-//                    .collect(Collectors.toSet());
-//        }else{
-//            this.perfiles = new HashSet<>();
-//
-//        }
-
-        if (usuario.perfilesid() != null) {
-            this.perfiles = usuario.perfilesid()
-                    .stream()
-                    .map(Perfil::new) // se usa el constructor de Perfil(Long id)
-                    .collect(Collectors.toSet());
-        }
-
-
+        this.perfiles = perfiles;
         // Inicializar como listas vacías si no vienen como parámetros
         this.respuestas = new ArrayList<>();
         this.topicos = new ArrayList<>();

@@ -23,6 +23,7 @@ public class Respuesta {
     private String mensaje;
     @ManyToOne
     private Topico topico;
+    @Column(name = "fecha_creacion")
     private LocalDate fechaCreacio;
     @ManyToOne
     private Usuario autor;
