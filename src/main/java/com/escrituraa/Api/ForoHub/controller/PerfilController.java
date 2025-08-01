@@ -5,6 +5,7 @@ import com.escrituraa.Api.ForoHub.curso.CursoRepository;
 import com.escrituraa.Api.ForoHub.perfil.DatosPerfil;
 import com.escrituraa.Api.ForoHub.perfil.Perfil;
 import com.escrituraa.Api.ForoHub.perfil.PerfilRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class PerfilController {
     //anotación para indicar que se registraran los medicos
     @PostMapping
     //Proceso para recibir los datos
-    public void registrarPerfil(@RequestBody DatosPerfil perfil){
+    public void registrarPerfil(@RequestBody @Valid DatosPerfil perfil){
           repository.save(new Perfil(perfil));
 
     }

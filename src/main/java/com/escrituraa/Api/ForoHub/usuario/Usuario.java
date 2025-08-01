@@ -29,7 +29,7 @@ public class Usuario {
     private String correoElectronico;
     private String contrasena;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "usuarios_perfiles",// nombre de la tabla intermedia
             joinColumns = @JoinColumn(name = "usuario_id"), // el cruce por id del usaurio

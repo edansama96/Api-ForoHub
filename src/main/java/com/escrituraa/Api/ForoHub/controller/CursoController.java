@@ -4,6 +4,7 @@ package com.escrituraa.Api.ForoHub.controller;
 import com.escrituraa.Api.ForoHub.curso.Curso;
 import com.escrituraa.Api.ForoHub.curso.CursoRepository;
 import com.escrituraa.Api.ForoHub.curso.DatosCurso;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ public class CursoController {
     //anotación para indicar que se registraran los medicos
     @PostMapping
     //Proceso para recibir los datos
-    public void registrarCurso(@RequestBody DatosCurso curso) {
+    public void registrarCurso(@RequestBody @Valid DatosCurso curso) {
         repository.save(new Curso(curso));
 
     }

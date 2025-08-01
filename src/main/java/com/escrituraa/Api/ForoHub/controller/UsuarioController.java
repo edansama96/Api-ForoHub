@@ -8,6 +8,7 @@ import com.escrituraa.Api.ForoHub.perfil.PerfilRepository;
 import com.escrituraa.Api.ForoHub.usuario.DatosRegistroUsuario;
 import com.escrituraa.Api.ForoHub.usuario.Usuario;
 import com.escrituraa.Api.ForoHub.usuario.UsuarioRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,7 @@ public class UsuarioController {
     //anotación para indicar que se registraran los medicos
     @PostMapping
     //Proceso para recibir los datos
-    public void registrarUsuario(@RequestBody DatosRegistroUsuario datos){
+    public void registrarUsuario(@RequestBody @Valid DatosRegistroUsuario datos){
         List<Perfil> perfiles = perfilRepository.findAllById(datos.perfilesid());
         Usuario usuario = new Usuario(datos, perfiles);
         repository.save(usuario);

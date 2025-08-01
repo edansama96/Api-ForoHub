@@ -7,6 +7,7 @@ import com.escrituraa.Api.ForoHub.topico.Topico;
 import com.escrituraa.Api.ForoHub.topico.TopicoRepository;
 import com.escrituraa.Api.ForoHub.usuario.Usuario;
 import com.escrituraa.Api.ForoHub.usuario.UsuarioRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,7 @@ public class RespuestaController {
     //anotación para indicar que se registraran los medicos
     @PostMapping
     //Proceso para recibir los datos
-    public void registrarRespuesta(@RequestBody DatosRegistroRespuesta datos) {
+    public void registrarRespuesta(@RequestBody @Valid DatosRegistroRespuesta datos) {
         Topico topico = topicoRepository.findById(datos.topicoId())
                 .orElseThrow(() -> new RuntimeException("Tópico no encontrado"));
         Usuario autor = usuarioRepository.findById(datos.autorId())

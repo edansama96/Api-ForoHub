@@ -6,17 +6,21 @@ import com.escrituraa.Api.ForoHub.respuesta.DatosRegistroRespuesta;
 import com.escrituraa.Api.ForoHub.respuesta.Respuesta;
 import com.escrituraa.Api.ForoHub.usuario.DatosRegistroUsuario;
 import com.escrituraa.Api.ForoHub.usuario.Usuario;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
 public record DatosRegistroTopico(
-        String titulo,
-        String mensaje,
-        LocalDate fechaCreacion,
-        StatusTopico status,
+        @NotBlank String titulo,
+        @NotBlank  String mensaje,
+        @NotNull LocalDate fechaCreacion,
+        @NotNull StatusTopico status,
         //DatosRegistroUsuario datosRegistroUsuarioautor,
-        Long autorId,
+        @NotEmpty Long autorId,
         //DatosCurso datosCurso,
-        Long cursoId,
-        DatosRegistroRespuesta datosRegistroRespuesta) {
+        @NotEmpty  Long cursoId,
+          DatosRegistroRespuesta datosRegistroRespuesta) {
 }
