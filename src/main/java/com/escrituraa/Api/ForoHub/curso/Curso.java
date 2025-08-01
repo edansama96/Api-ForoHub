@@ -30,7 +30,7 @@ public class Curso {
     }
 
     public Curso(DatosCurso curso){
-        this.id = null;
+        //this.id = null;
         if(curso.nombre() == null){
             throw new IllegalArgumentException("Datos del curso no pueden ser nulos");
         }else {

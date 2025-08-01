@@ -19,6 +19,7 @@ public class Perfil {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private NombrePerfil nombre;
 
     @ManyToMany(mappedBy = "perfiles", fetch = FetchType.LAZY)
@@ -29,7 +30,7 @@ public class Perfil {
     }
 
     public Perfil(DatosPerfil perfil){
-        this.id = null;
+        //this.id = null;
         this.nombre = perfil.nombre();
 
     }

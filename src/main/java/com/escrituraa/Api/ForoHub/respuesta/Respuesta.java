@@ -32,12 +32,12 @@ public class Respuesta {
 
     }
 
-    public Respuesta(DatosRegistroRespuesta respuesta) {
-        this.id = null;
+    public Respuesta(DatosRegistroRespuesta respuesta, Topico topico, Usuario autor) {
+        //this.id = null;
         this.mensaje = respuesta.mensaje();
-        this.topico = new Topico(respuesta.datosRegistroTopico());
+        this.topico = topico;
         this.fechaCreacio = respuesta.fechaCreacion();
-        this.autor =  respuesta.autor();
+        this.autor =  autor;
         this.solucion = respuesta.solucion();
     }
 }

@@ -35,7 +35,7 @@ public class Usuario {
             joinColumns = @JoinColumn(name = "usuario_id"), // el cruce por id del usaurio
             inverseJoinColumns = @JoinColumn(name = "perfil_id")// el cruce por el id del perfil
     )
-    private Set<Perfil> perfiles;
+    private List<Perfil> perfiles;
 
     @OneToMany(mappedBy = "autor", fetch = FetchType.LAZY )
     private List<Respuesta> respuestas;
@@ -47,8 +47,8 @@ public class Usuario {
 
     }
 
-    public Usuario(DatosRegistroUsuario usuario) {
-        this.id=  null;
+    public Usuario(DatosRegistroUsuario usuario, List<Perfil> perfiles) {
+        //this.id=  null;
         this.nombre = usuario.nombre();
         this.correoElectronico = usuario.correoElectronico();
         this.contrasena = usuario.contrasena();

@@ -14,7 +14,9 @@ public record DatosRegistroTopico(
         String mensaje,
         LocalDate fechaCreacion,
         StatusTopico status,
-        DatosRegistroUsuario datosRegistroUsuarioautor,
-        DatosCurso datosCurso,
+        //DatosRegistroUsuario datosRegistroUsuarioautor,
+        Long autorId,
+        //DatosCurso datosCurso,
+        Long cursoId,
         DatosRegistroRespuesta datosRegistroRespuesta) {
 }

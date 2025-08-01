@@ -26,6 +26,7 @@ public class Topico {
     private String titulo;
     private String mensaje;
     private LocalDate fechaCreacion;
+    @Enumerated(EnumType.STRING)
     private StatusTopico status;
     @ManyToOne
     private Usuario autor;
@@ -39,17 +40,20 @@ public class Topico {
 
     }
 
-    public Topico(DatosRegistroTopico topico){
-        this.id = null;
+    public Topico(DatosRegistroTopico topico, Usuario autor, Curso curso){
+//        this.id = null;
         this.titulo = topico.titulo();
         this.mensaje = topico.mensaje();
         this.fechaCreacion = topico.fechaCreacion();
         this.status = topico.status();
-        this.autor = new Usuario(topico.datosRegistroUsuarioautor());
-        this.curso = new Curso(topico.datosCurso());
+        //this.autor = new Usuario(topico.datosRegistroUsuarioautor());
+        this.autor = autor;
+        //this.curso = new Curso(topico.datosCurso());
+        this.curso = curso;
         this.respuesta = new ArrayList<>();
-        this.respuesta.add(new Respuesta(topico.datosRegistroRespuesta()));
-
+        if(topico.datosRegistroRespuesta()!= null) {
+            this.respuesta.add(new Respuesta(topico.datosRegistroRespuesta(), this , autor));
+        }
 
     }
 
