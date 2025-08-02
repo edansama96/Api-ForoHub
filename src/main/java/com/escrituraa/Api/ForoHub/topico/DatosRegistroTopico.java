@@ -19,8 +19,8 @@ public record DatosRegistroTopico(
         @NotNull LocalDate fechaCreacion,
         @NotNull StatusTopico status,
         //DatosRegistroUsuario datosRegistroUsuarioautor,
-        @NotEmpty Long autorId,
+        @NotNull Long autorId,
         //DatosCurso datosCurso,
-        @NotEmpty  Long cursoId,
+        @NotNull  Long cursoId,
           DatosRegistroRespuesta datosRegistroRespuesta) {
 }

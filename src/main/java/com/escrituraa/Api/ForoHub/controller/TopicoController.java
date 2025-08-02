@@ -36,6 +36,12 @@ public class TopicoController {
     @PostMapping
     //Proceso para recibir los datos
     public  void registrarTopico(@RequestBody @Valid DatosRegistroTopico datos){
+        //validación del titulo y mensaje de un nuevo topico a crear
+        boolean existeTopico = repository.existsByTituloAndMensaje(datos.titulo(), datos.mensaje());
+        if(existeTopico){
+            throw new RuntimeException("Ya existe un tópico con ese título y mensaje.");
+        }
+
         Usuario autor = usuarioRepository.findById(datos.autorId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Curso curso = cursoRepository.findById(datos.cursoId())
