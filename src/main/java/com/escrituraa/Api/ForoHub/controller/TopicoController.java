@@ -2,6 +2,7 @@ package com.escrituraa.Api.ForoHub.controller;
 
 import com.escrituraa.Api.ForoHub.curso.Curso;
 import com.escrituraa.Api.ForoHub.curso.CursoRepository;
+import com.escrituraa.Api.ForoHub.topico.DatosListaTopico;
 import com.escrituraa.Api.ForoHub.topico.DatosRegistroTopico;
 import com.escrituraa.Api.ForoHub.topico.Topico;
 import com.escrituraa.Api.ForoHub.topico.TopicoRepository;
@@ -10,12 +11,10 @@ import com.escrituraa.Api.ForoHub.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 //Indica que es una clase de control para Topico
 @RestController
@@ -50,6 +49,12 @@ public class TopicoController {
         repository.save(topico);
 
 
+    }
+
+    //Método para lista los topicos
+    @GetMapping
+    public List<DatosListaTopico> listarTopicos(){
+       return repository.findAll().stream().map(lt -> new DatosListaTopico(lt)).toList();
     }
 
 
