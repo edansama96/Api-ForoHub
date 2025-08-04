@@ -7,8 +7,8 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 //@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -38,6 +38,27 @@ public class Perfil {
         this.id = id;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public NombrePerfil getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(NombrePerfil nombre) {
+        this.nombre = nombre;
+    }
+
+    public List<Usuario> getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(List<Usuario> usuario) {
+        this.usuario = usuario;
+    }
 }

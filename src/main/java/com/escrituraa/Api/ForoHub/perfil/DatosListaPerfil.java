@@ -6,6 +6,6 @@ public record DatosListaPerfil(
 
 ) {
     public DatosListaPerfil(Perfil perfil) {
-        this(perfil.getId(),perfil.getNombre());
+       this(perfil.getId(),perfil.getNombre());
     }
 }

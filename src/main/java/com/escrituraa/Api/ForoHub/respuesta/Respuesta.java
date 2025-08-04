@@ -8,8 +8,8 @@ import lombok.*;
 import java.time.LocalDate;
 
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 //@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -40,5 +40,53 @@ public class Respuesta {
         this.fechaCreacio = respuesta.fechaCreacion();
         this.autor =  autor;
         this.solucion = respuesta.solucion();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public Topico getTopico() {
+        return topico;
+    }
+
+    public void setTopico(Topico topico) {
+        this.topico = topico;
+    }
+
+    public LocalDate getFechaCreacio() {
+        return fechaCreacio;
+    }
+
+    public void setFechaCreacio(LocalDate fechaCreacio) {
+        this.fechaCreacio = fechaCreacio;
+    }
+
+    public Usuario getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Usuario autor) {
+        this.autor = autor;
+    }
+
+    public boolean isSolucion() {
+        return solucion;
+    }
+
+    public void setSolucion(boolean solucion) {
+        this.solucion = solucion;
     }
 }

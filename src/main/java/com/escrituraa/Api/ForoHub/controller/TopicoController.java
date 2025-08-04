@@ -10,6 +10,9 @@ import com.escrituraa.Api.ForoHub.usuario.Usuario;
 import com.escrituraa.Api.ForoHub.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,9 +55,15 @@ public class TopicoController {
     }
 
     //Método para lista los topicos
+    //Ya no se utilizara el Lista para  manejar la infromación
+    // debido a que ahora lo que se hara es usar Pageable
+    // lo que hace que se devuelva un elemento de Tipo page
+    // el cual tendra la lista de la información y la dividira en páginas
+    // se quito el tolist por que ya no se devuelve dicha información
+    // y page tiene problemas con stream no funciona
     @GetMapping
-    public List<DatosListaTopico> listarTopicos(){
-       return repository.findAll().stream().map(lt -> new DatosListaTopico(lt)).toList();
+    public Page<DatosListaTopico> listarTopicos(@PageableDefault(size = 10,sort ={"fechaCreacion"})Pageable paginacion){
+       return repository.findAll(paginacion).map(lt -> new DatosListaTopico(lt));
     }
 
 

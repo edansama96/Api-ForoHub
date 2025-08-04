@@ -10,10 +10,8 @@ public record DatosListaTopico(
         String mensaje,
         LocalDate fechaCreacion,
         StatusTopico statusTopico,
-        Long autorId,
         String autorNombre,
         String autorCorreo,
-        Long cursoId,
         String cursoNombre
 
 
@@ -23,14 +21,13 @@ public record DatosListaTopico(
 
     public DatosListaTopico(Topico topico) {
         this(
+
                 topico.getTitulo(),
                 topico.getMensaje(),
                 topico.getFechaCreacion(),
                 topico.getStatus(),
-                topico.getAutor().getId(),
                 topico.getAutor().getNombre(),
                 topico.getAutor().getCorreoElectronico(),
-                topico.getCurso().getId(),
                 topico.getCurso().getNombre()
 
         );

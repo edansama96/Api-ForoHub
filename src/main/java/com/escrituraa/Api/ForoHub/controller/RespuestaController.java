@@ -1,5 +1,6 @@
 package com.escrituraa.Api.ForoHub.controller;
 
+import com.escrituraa.Api.ForoHub.respuesta.DatosListaRespuesta;
 import com.escrituraa.Api.ForoHub.respuesta.DatosRegistroRespuesta;
 import com.escrituraa.Api.ForoHub.respuesta.Respuesta;
 import com.escrituraa.Api.ForoHub.respuesta.RespuestaRepository;
@@ -9,11 +10,13 @@ import com.escrituraa.Api.ForoHub.usuario.Usuario;
 import com.escrituraa.Api.ForoHub.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //indica que es una clase de control
 @RestController
@@ -43,4 +46,19 @@ public class RespuestaController {
         repository.save(respuesta);
 
     }
+
+    //Método para listar las respuestas
+    //Ya no se utilizara el Lista para  manejar la infromación
+    // debido a que ahora lo que se hara es usar Pageable
+    // lo que hace que se devuelva un elemento de Tipo page
+    // el cual tendra la lista de la información y la dividira en páginas
+    // se quito el tolist por que ya no se devuelve dicha información
+    // y page tiene problemas con stream no funciona
+    @GetMapping
+    public Page<DatosListaRespuesta> listarRepuesta(@PageableDefault(size = 10,sort ={"mensaje"})Pageable paginacion){
+        return repository.findAll(paginacion).map(DatosListaRespuesta::new);
+    }
+
+
+
 }

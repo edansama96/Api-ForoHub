@@ -6,9 +6,8 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-@Getter
-@Setter
+//@Getter
+//@Setter
 //@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -39,5 +38,37 @@ public class Curso {
         this.categoria = curso.categoria();
         this.topico = new ArrayList<>();
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public List<Topico> getTopico() {
+        return topico;
+    }
+
+    public void setTopico(List<Topico> topico) {
+        this.topico = topico;
     }
 }
