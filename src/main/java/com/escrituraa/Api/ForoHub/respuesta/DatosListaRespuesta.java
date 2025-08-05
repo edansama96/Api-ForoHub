@@ -8,6 +8,7 @@ import com.escrituraa.Api.ForoHub.topico.StatusTopico;
 import java.time.LocalDate;
 
 public record DatosListaRespuesta(
+        Long id,
         String mensaje,
         String autorNombre,
         LocalDate fechaCreacion,
@@ -16,6 +17,7 @@ public record DatosListaRespuesta(
 ) {
     public DatosListaRespuesta(Respuesta respuesta) {
         this(
+                respuesta.getId(),
                 respuesta.getMensaje(),
                 respuesta.getAutor().getNombre(),
                 respuesta.getFechaCreacio(),

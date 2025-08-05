@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,14 @@ public class UsuarioController {
     @GetMapping
     public Page<DatosListaUsuarios> listarUsuarios(@PageableDefault(size = 10,sort ={"nombre"})Pageable paginacion){
          return repository.findAll(paginacion).map(DatosListaUsuarios::new);
+    }
+
+    //Método para buscar por id
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosListaUsuarios> buscarPoId(@PathVariable Long id){
+        return  repository.findById(id)
+                .map(du -> ResponseEntity.ok(new DatosListaUsuarios(du)))// Si lo encuentra devuelve 200 con el objeto
+                .orElse(ResponseEntity.notFound().build());// Si no existe devuelve 404
     }
 
 }

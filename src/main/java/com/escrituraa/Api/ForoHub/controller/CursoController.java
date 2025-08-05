@@ -7,6 +7,7 @@ import com.escrituraa.Api.ForoHub.curso.DatosCurso;
 import com.escrituraa.Api.ForoHub.curso.DatosListaCurso;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,4 +37,15 @@ public class CursoController {
     public List<DatosListaCurso> listaCursos(){
        return repository.findAll().stream().map(dc -> new DatosListaCurso(dc)).toList();
     }
+
+    //Método para listar por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosListaCurso> buscarPorId(@PathVariable Long id){
+        return repository.findById(id)
+                .map(dc -> ResponseEntity.ok(new DatosListaCurso(dc)))// Si lo encuentra devuelve 200 con el objeto
+                .orElse(ResponseEntity.notFound().build());// Si no existe devuelve 404
+    }
+
+
 }
+

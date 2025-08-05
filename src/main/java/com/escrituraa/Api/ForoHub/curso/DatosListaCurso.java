@@ -7,6 +7,9 @@ public record DatosListaCurso(
 ) {
 
     public DatosListaCurso(Curso curso) {
-        this(curso.getId(), curso.getNombre(),curso.getCategoria());
+        this(
+                curso.getId(),
+                curso.getNombre(),
+                curso.getCategoria());
     }
 }

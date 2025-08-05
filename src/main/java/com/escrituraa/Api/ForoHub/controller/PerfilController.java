@@ -8,6 +8,7 @@ import com.escrituraa.Api.ForoHub.perfil.Perfil;
 import com.escrituraa.Api.ForoHub.perfil.PerfilRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +40,12 @@ public class PerfilController {
            return repository.findAll().stream().map(DatosListaPerfil :: new).toList();
     }
 
+    //Método para buscar por id
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosListaPerfil> buscarPorId(@PathVariable Long id){
+        return repository.findById(id)
+                .map(dp -> ResponseEntity.ok(new DatosListaPerfil(dp)))// Si lo encuentra devuelve 200 con el objeto
+                .orElse(ResponseEntity.notFound().build());// Si no existe devuelve 404
+    }
 
 }
