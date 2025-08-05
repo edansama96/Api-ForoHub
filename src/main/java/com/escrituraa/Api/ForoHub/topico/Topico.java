@@ -4,6 +4,7 @@ import com.escrituraa.Api.ForoHub.curso.Curso;
 import com.escrituraa.Api.ForoHub.respuesta.Respuesta;
 import com.escrituraa.Api.ForoHub.usuario.Usuario;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
 
 
@@ -54,6 +55,8 @@ public class Topico {
         if(topico.datosRegistroRespuesta()!= null) {
             this.respuesta.add(new Respuesta(topico.datosRegistroRespuesta(), this , autor));
         }
+
+
 
     }
 
@@ -119,5 +122,23 @@ public class Topico {
 
     public void setRespuesta(List<Respuesta> respuesta) {
         this.respuesta = respuesta;
+    }
+
+    public void actualizarInformaciones(@Valid DatosActualizacionTopico datos) {
+        if(datos.titulo()!= null){
+            this.titulo = datos.titulo();
+        }
+
+        if(datos.mensaje()!= null){
+            this.mensaje = datos.mensaje();
+        }
+
+        if(datos.status() != null){
+            this.status = datos.status();
+        }
+
+
+
+
     }
 }

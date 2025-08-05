@@ -74,7 +74,14 @@ public class TopicoController {
     }
 
     //Método para actualizar con put el topico
+    @Transactional
+    @PutMapping
+    public void actualizacionTopico(@RequestBody @Valid DatosActualizacionTopico datos){
+        //obtener el topido por id
+        var topico = repository.getReferenceById(datos.id());
+        topico.actualizarInformaciones(datos);
 
+    }
 
 
 
