@@ -2,8 +2,10 @@ package com.escrituraa.Api.ForoHub.usuario;
 
 import com.escrituraa.Api.ForoHub.perfil.Perfil;
 import com.escrituraa.Api.ForoHub.respuesta.Respuesta;
+import com.escrituraa.Api.ForoHub.topico.DatosActualizacionTopico;
 import com.escrituraa.Api.ForoHub.topico.Topico;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -115,5 +117,21 @@ public class Usuario {
 
     public void setTopicos(List<Topico> topicos) {
         this.topicos = topicos;
+    }
+
+    public void actualizarInformaciones(@Valid DatosActualizacionUsuario datos) {
+       if(datos.nombre() != null){
+           this.nombre = datos.nombre();
+       }
+
+       if(datos.correoElectronico() != null){
+           this.correoElectronico = datos.correoElectronico();
+
+       }
+
+       if(datos.contrasena() != null){
+           this.contrasena = datos.contrasena();
+       }
+
     }
 }

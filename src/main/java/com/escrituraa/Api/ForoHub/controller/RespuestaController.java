@@ -1,9 +1,6 @@
 package com.escrituraa.Api.ForoHub.controller;
 
-import com.escrituraa.Api.ForoHub.respuesta.DatosListaRespuesta;
-import com.escrituraa.Api.ForoHub.respuesta.DatosRegistroRespuesta;
-import com.escrituraa.Api.ForoHub.respuesta.Respuesta;
-import com.escrituraa.Api.ForoHub.respuesta.RespuestaRepository;
+import com.escrituraa.Api.ForoHub.respuesta.*;
 import com.escrituraa.Api.ForoHub.topico.Topico;
 import com.escrituraa.Api.ForoHub.topico.TopicoRepository;
 import com.escrituraa.Api.ForoHub.usuario.Usuario;
@@ -68,6 +65,16 @@ public class RespuestaController {
                 .orElse(ResponseEntity.notFound().build());// Si no existe devuelve 404
     }
 
+
+    //Método para actualizar algunos elmentos
+    @Transactional
+    @PutMapping
+    public void actualizaRespuesta(@RequestBody @Valid DatosActualizarRepuesta datos){
+        //Obtener el medico por id
+        var respuesta = repository.getReferenceById(datos.id());
+        respuesta.actualizarInformaciones(datos);
+
+    }
 
 
 }

@@ -5,10 +5,8 @@ import com.escrituraa.Api.ForoHub.curso.CursoRepository;
 import com.escrituraa.Api.ForoHub.curso.DatosCurso;
 import com.escrituraa.Api.ForoHub.perfil.Perfil;
 import com.escrituraa.Api.ForoHub.perfil.PerfilRepository;
-import com.escrituraa.Api.ForoHub.usuario.DatosListaUsuarios;
-import com.escrituraa.Api.ForoHub.usuario.DatosRegistroUsuario;
-import com.escrituraa.Api.ForoHub.usuario.Usuario;
-import com.escrituraa.Api.ForoHub.usuario.UsuarioRepository;
+import com.escrituraa.Api.ForoHub.topico.DatosActualizacionTopico;
+import com.escrituraa.Api.ForoHub.usuario.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -61,6 +59,16 @@ public class UsuarioController {
         return  repository.findById(id)
                 .map(du -> ResponseEntity.ok(new DatosListaUsuarios(du)))// Si lo encuentra devuelve 200 con el objeto
                 .orElse(ResponseEntity.notFound().build());// Si no existe devuelve 404
+    }
+
+    //Método para actualizar con put el topico
+    @Transactional
+    @PutMapping
+    public void actualizacionUsuario(@RequestBody @Valid DatosActualizacionUsuario datos){
+        //obtener el usuario por id
+        var usuario = repository.getReferenceById(datos.id());
+        usuario.actualizarInformaciones(datos);
+
     }
 
 }

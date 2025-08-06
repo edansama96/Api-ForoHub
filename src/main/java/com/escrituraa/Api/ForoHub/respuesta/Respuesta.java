@@ -3,6 +3,7 @@ package com.escrituraa.Api.ForoHub.respuesta;
 import com.escrituraa.Api.ForoHub.topico.Topico;
 import com.escrituraa.Api.ForoHub.usuario.Usuario;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -88,5 +89,15 @@ public class Respuesta {
 
     public void setSolucion(boolean solucion) {
         this.solucion = solucion;
+    }
+
+    public void actualizarInformaciones(@Valid DatosActualizarRepuesta datos) {
+    if(datos.mensaje() != null){
+        this.mensaje = datos.mensaje();
+
+    }
+        this.solucion= datos.solucion();
+
+
     }
 }
