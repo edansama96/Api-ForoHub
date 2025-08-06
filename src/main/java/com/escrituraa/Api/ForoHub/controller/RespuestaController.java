@@ -10,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 //indica que es una clase de control
 @RestController
@@ -70,9 +73,14 @@ public class RespuestaController {
     @Transactional
     @PutMapping
     public void actualizaRespuesta(@RequestBody @Valid DatosActualizarRepuesta datos){
-        //Obtener el medico por id
-        var respuesta = repository.getReferenceById(datos.id());
-        respuesta.actualizarInformaciones(datos);
+        //validación de que la respuesta exita y busqueda para modificar
+        Optional<Respuesta> optionalRespuesta = repository.findById(datos.id());
+        if(optionalRespuesta.isPresent()){
+            var respuesta = optionalRespuesta.get();
+            respuesta.actualizarInformaciones(datos);
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Respuesta no encontrado");
+        }
 
     }
 

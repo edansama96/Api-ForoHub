@@ -24,6 +24,7 @@ public class Topico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private boolean activo;
     private String titulo;
     private String mensaje;
     private LocalDate fechaCreacion;
@@ -43,6 +44,7 @@ public class Topico {
 
     public Topico(DatosRegistroTopico topico, Usuario autor, Curso curso){
 //        this.id = null;
+        this.activo= true;
         this.titulo = topico.titulo();
         this.mensaje = topico.mensaje();
         this.fechaCreacion = topico.fechaCreacion();
@@ -58,6 +60,14 @@ public class Topico {
 
 
 
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     public Long getId() {
@@ -140,5 +150,9 @@ public class Topico {
 
 
 
+    }
+
+    public void eliminarTopico() {
+        this.activo = false;
     }
 }

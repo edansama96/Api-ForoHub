@@ -10,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 //Indica que es una clase de control para Topico
 @RestController
@@ -62,13 +65,13 @@ public class TopicoController {
     // y page tiene problemas con stream no funciona
     @GetMapping
     public Page<DatosListaTopico> listarTopicos(@PageableDefault(size = 10, sort = {"fechaCreacion"}) Pageable paginacion) {
-        return repository.findAll(paginacion).map(lt -> new DatosListaTopico(lt));
+        return repository.findAllByActivoTrue(paginacion).map(lt -> new DatosListaTopico(lt));
     }
 
     //Método get para buscar por id
     @GetMapping("/{id}")
     public ResponseEntity<DatosListaTopico> obtenerPorId(@PathVariable Long id) {
-        return repository.findById(id)
+        return repository.findByIdAndActivoTrue(id)
                 .map(topico -> ResponseEntity.ok(new DatosListaTopico(topico)))// Si lo encuentra devuelve 200 con el objeto
                 .orElse(ResponseEntity.notFound().build()); // Si no existe devuelve 404
     }
@@ -78,11 +81,27 @@ public class TopicoController {
     @PutMapping
     public void actualizacionTopico(@RequestBody @Valid DatosActualizacionTopico datos){
         //obtener el topido por id
-        var topico = repository.getReferenceById(datos.id());
-        topico.actualizarInformaciones(datos);
+//        var topico = repository.getReferenceById(datos.id());
+//        topico.actualizarInformaciones(datos);
+        //validación del topico
+        Optional<Topico> optionalTopico = repository.findByIdAndActivoTrue(datos.id());
+        if(optionalTopico.isPresent()){
+            var topico = optionalTopico.get();
+            topico.actualizarInformaciones(datos);
+        }else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tópico no encontrado");
+        }
 
     }
 
+    //Método para eliminar o en el presente caso deshabilitar los usuarios
+    @Transactional
+    @DeleteMapping("/{id}")
+    public void eliminarUsuario(@PathVariable Long id){
+        var usuario = repository.getReferenceById(id);
+        usuario.eliminarTopico();
+
+    }
 
 
 }
