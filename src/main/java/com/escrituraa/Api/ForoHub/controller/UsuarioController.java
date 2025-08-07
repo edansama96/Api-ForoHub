@@ -53,13 +53,13 @@ public class UsuarioController {
     // y page tiene problemas con stream no funciona
     @GetMapping
     public Page<DatosListaUsuarios> listarUsuarios(@PageableDefault(size = 10,sort ={"nombre"})Pageable paginacion){
-         return repository.findAll(paginacion).map(DatosListaUsuarios::new);
+         return repository.findAllByActivoTrue(paginacion).map(DatosListaUsuarios::new);
     }
 
     //Método para buscar por id
     @GetMapping("/{id}")
     public ResponseEntity<DatosListaUsuarios> buscarPoId(@PathVariable Long id){
-        return  repository.findById(id)
+        return  repository.findByIdAndActivoTrue(id)
                 .map(du -> ResponseEntity.ok(new DatosListaUsuarios(du)))// Si lo encuentra devuelve 200 con el objeto
                 .orElse(ResponseEntity.notFound().build());// Si no existe devuelve 404
     }
@@ -72,7 +72,7 @@ public class UsuarioController {
 //        var usuario = repository.getReferenceById(datos.id());
 //        usuario.actualizarInformaciones(datos);
         //Validación de que el usaurio exista y permitir la busqueda por id
-        Optional<Usuario> optionalUsuario = repository.findById(datos.id());
+        Optional<Usuario> optionalUsuario = repository.findByIdAndActivoTrue(datos.id());
         if(optionalUsuario.isPresent()){
             var usuario = optionalUsuario.get();
             usuario.actualizarInformaciones(datos);
@@ -80,6 +80,14 @@ public class UsuarioController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         }
 
+    }
+
+    //Método para eliminar o deshabilitar por id
+    @Transactional
+    @DeleteMapping("/{id}")
+    public void eliminarUsuario(@PathVariable Long id){
+        var usuario = repository.getReferenceById(id);
+        usuario.eliminiarUsuario();
     }
 
 }
