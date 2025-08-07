@@ -57,13 +57,13 @@ public class RespuestaController {
     // y page tiene problemas con stream no funciona
     @GetMapping
     public Page<DatosListaRespuesta> listarRepuesta(@PageableDefault(size = 10,sort ={"mensaje"})Pageable paginacion){
-        return repository.findAll(paginacion).map(DatosListaRespuesta::new);
+        return repository.findAllByActivoTrue(paginacion).map(DatosListaRespuesta::new);
     }
 
     //Métogo para buscar por id
     @GetMapping("/{id}")
     public ResponseEntity<DatosListaRespuesta>obtenerPorId(@PathVariable Long id){
-        return repository.findById(id)
+        return repository.findByIdAndActivoTrue(id)
                 .map(dr -> ResponseEntity.ok(new DatosListaRespuesta(dr)))// Si lo encuentra devuelve 200 con el objeto
                 .orElse(ResponseEntity.notFound().build());// Si no existe devuelve 404
     }
@@ -74,14 +74,22 @@ public class RespuestaController {
     @PutMapping
     public void actualizaRespuesta(@RequestBody @Valid DatosActualizarRepuesta datos){
         //validación de que la respuesta exita y busqueda para modificar
-        Optional<Respuesta> optionalRespuesta = repository.findById(datos.id());
+        Optional<Respuesta> optionalRespuesta = repository.findByIdAndActivoTrue(datos.id());
         if(optionalRespuesta.isPresent()){
             var respuesta = optionalRespuesta.get();
             respuesta.actualizarInformaciones(datos);
-        }else{
+        }else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Respuesta no encontrado");
         }
 
+    }
+
+    //Método para el delete o deshabilitar las respuestas
+    @Transactional
+    @DeleteMapping("/{id}")
+    public void eliminarRespuesta(@PathVariable Long id){
+        var respuesta = repository.getReferenceById(id);
+        respuesta.eliminarRespuesta();
     }
 
 

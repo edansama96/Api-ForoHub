@@ -21,6 +21,7 @@ public class Respuesta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private boolean activo;
     private String mensaje;
     @ManyToOne
     private Topico topico;
@@ -36,11 +37,20 @@ public class Respuesta {
 
     public Respuesta(DatosRegistroRespuesta respuesta, Topico topico, Usuario autor) {
         //this.id = null;
+        this.activo = true;
         this.mensaje = respuesta.mensaje();
         this.topico = topico;
         this.fechaCreacio = respuesta.fechaCreacion();
         this.autor =  autor;
         this.solucion = respuesta.solucion();
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     public Long getId() {
@@ -99,5 +109,9 @@ public class Respuesta {
         this.solucion= datos.solucion();
 
 
+    }
+
+    public void eliminarRespuesta() {
+        this.activo = false;
     }
 }
