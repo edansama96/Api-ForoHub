@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -39,7 +40,7 @@ public class TopicoController {
     //anotación para indicar que se registraran los medicos
     @PostMapping
     //Proceso para recibir los datos
-    public void registrarTopico(@RequestBody @Valid DatosRegistroTopico datos) {
+    public ResponseEntity registrarTopico(@RequestBody @Valid DatosRegistroTopico datos, UriComponentsBuilder uriComponentsBuilder) {
         //validación del titulo y mensaje de un nuevo topico a crear
         boolean existeTopico = repository.existsByTituloAndMensaje(datos.titulo(), datos.mensaje());
         if (existeTopico) {
@@ -52,7 +53,10 @@ public class TopicoController {
                 .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
         Topico topico = new Topico(datos, autor, curso);
         repository.save(topico);
-
+        //Se establece el uso de la instnacia de la clase  UriComponentsBuilder para entender y usar ciertos datos del servidor
+        var uri = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+        //Se envia elemento creado devuelta de tipo DTO
+        return ResponseEntity.created(uri).body(new DatosDetalleTopico(topico));
 
     }
 
@@ -64,8 +68,9 @@ public class TopicoController {
     // se quito el tolist por que ya no se devuelve dicha información
     // y page tiene problemas con stream no funciona
     @GetMapping
-    public Page<DatosListaTopico> listarTopicos(@PageableDefault(size = 10, sort = {"fechaCreacion"}) Pageable paginacion) {
-        return repository.findAllByActivoTrue(paginacion).map(lt -> new DatosListaTopico(lt));
+    public ResponseEntity<Page<DatosListaTopico>> listarTopicos(@PageableDefault(size = 10, sort = {"fechaCreacion"}) Pageable paginacion) {
+        var page = repository.findAllByActivoTrue(paginacion).map(lt -> new DatosListaTopico(lt));
+        return ResponseEntity.ok(page);
     }
 
     //Método get para buscar por id
@@ -79,7 +84,7 @@ public class TopicoController {
     //Método para actualizar con put el topico
     @Transactional
     @PutMapping
-    public void actualizacionTopico(@RequestBody @Valid DatosActualizacionTopico datos){
+    public ResponseEntity actualizacionTopico(@RequestBody @Valid DatosActualizacionTopico datos){
         //obtener el topido por id
 //        var topico = repository.getReferenceById(datos.id());
 //        topico.actualizarInformaciones(datos);
@@ -88,6 +93,7 @@ public class TopicoController {
         if(optionalTopico.isPresent()){
             var topico = optionalTopico.get();
             topico.actualizarInformaciones(datos);
+            return  ResponseEntity.ok(new DatosDetalleTopico(topico));
         }else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tópico no encontrado");
         }
@@ -97,10 +103,10 @@ public class TopicoController {
     //Método para eliminar o en el presente caso deshabilitar los usuarios
     @Transactional
     @DeleteMapping("/{id}")
-    public void eliminarUsuario(@PathVariable Long id){
+    public ResponseEntity eliminarUsuario(@PathVariable Long id){
         var usuario = repository.getReferenceById(id);
         usuario.eliminarTopico();
-
+        return  ResponseEntity.noContent().build();
     }
 
 

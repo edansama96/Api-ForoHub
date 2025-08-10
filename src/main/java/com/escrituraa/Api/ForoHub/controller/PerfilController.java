@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -29,15 +30,20 @@ public class PerfilController {
     //anotación para indicar que se registraran los medicos
     @PostMapping
     //Proceso para recibir los datos
-    public void registrarPerfil(@RequestBody @Valid DatosPerfil perfil){
-          repository.save(new Perfil(perfil));
-
+    public ResponseEntity registrarPerfil(@RequestBody @Valid DatosPerfil datos, UriComponentsBuilder uriComponentsBuilder){
+        var perfil =  new Perfil(datos);
+        repository.save(perfil);
+            // se establece la uri a manejar
+        var uri = uriComponentsBuilder.path("/perfiles/{id}").buildAndExpand(perfil.getId()).toUri();
+        //el retonor de elemento dto
+        return ResponseEntity.created(uri).body(new DatosListaPerfil(perfil));
     }
 
     //Mostrar método para listar los perfiles
     @GetMapping
-    public List<DatosListaPerfil> listarPerfiles(){
-           return repository.findAll().stream().map(DatosListaPerfil :: new).toList();
+    public ResponseEntity<List<DatosListaPerfil>> listarPerfiles(){
+           var perfil = repository.findAll().stream().map(DatosListaPerfil :: new).toList();
+        return  ResponseEntity.ok(perfil);
     }
 
     //Método para buscar por id

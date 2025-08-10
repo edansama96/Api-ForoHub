@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,10 +39,14 @@ public class UsuarioController {
     //anotación para indicar que se registraran los medicos
     @PostMapping
     //Proceso para recibir los datos
-    public void registrarUsuario(@RequestBody @Valid DatosRegistroUsuario datos){
+    public ResponseEntity registrarUsuario(@RequestBody @Valid DatosRegistroUsuario datos, UriComponentsBuilder uriComponentsBuilder){
         List<Perfil> perfiles = perfilRepository.findAllById(datos.perfilesid());
         Usuario usuario = new Usuario(datos, perfiles);
         repository.save(usuario);
+       //Se establece la uri que se manejara
+        var uri = uriComponentsBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
+       // no se devuelve un jpa si no un dto usuario
+       return  ResponseEntity.created(uri).body(new DatosDetalleUsuario(usuario));
     }
 
     //Método para mostra la lista de Usuarios
@@ -52,8 +57,9 @@ public class UsuarioController {
     // se quito el tolist por que ya no se devuelve dicha información
     // y page tiene problemas con stream no funciona
     @GetMapping
-    public Page<DatosListaUsuarios> listarUsuarios(@PageableDefault(size = 10,sort ={"nombre"})Pageable paginacion){
-         return repository.findAllByActivoTrue(paginacion).map(DatosListaUsuarios::new);
+    public ResponseEntity<Page<DatosListaUsuarios>> listarUsuarios(@PageableDefault(size = 10,sort ={"nombre"})Pageable paginacion){
+         var page = repository.findAllByActivoTrue(paginacion).map(DatosListaUsuarios::new);
+        return  ResponseEntity.ok(page);
     }
 
     //Método para buscar por id
@@ -67,7 +73,7 @@ public class UsuarioController {
     //Método para actualizar con put el topico
     @Transactional
     @PutMapping
-    public void actualizacionUsuario(@RequestBody @Valid DatosActualizacionUsuario datos){
+    public ResponseEntity actualizacionUsuario(@RequestBody @Valid DatosActualizacionUsuario datos){
         //obtener el usuario por id
 //        var usuario = repository.getReferenceById(datos.id());
 //        usuario.actualizarInformaciones(datos);
@@ -76,6 +82,7 @@ public class UsuarioController {
         if(optionalUsuario.isPresent()){
             var usuario = optionalUsuario.get();
             usuario.actualizarInformaciones(datos);
+            return  ResponseEntity.ok(new DatosDetalleUsuario(usuario));
         }else{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         }
