@@ -92,7 +92,7 @@ public class TopicoController {
          *   Esta excepción será capturada por un @RestControllerAdvice
          *   para devolver 404 Not Found de forma centralizada.
          */
-        var topicos = repository.findById(id)
+        var topicos = repository.findByIdAndActivoTrue(id)
                 .orElseThrow(EntityNotFoundException::new);
         return  ResponseEntity.ok(new DatosListaTopico(topicos));
 

@@ -79,7 +79,7 @@ public class UsuarioController {
          *   Esta excepción será capturada por un @RestControllerAdvice
          *   para devolver 404 Not Found de forma centralizada.
          */
-        var usuario = repository.findById(id)
+        var usuario = repository.findByIdAndActivoTrue(id)
                 .orElseThrow(EntityNotFoundException::new);
         return ResponseEntity.ok(new DatosListaUsuarios(usuario));
 

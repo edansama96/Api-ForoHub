@@ -87,7 +87,7 @@ public class RespuestaController {
          *   Esta excepción será capturada por un @RestControllerAdvice
          *   para devolver 404 Not Found de forma centralizada.
          */
-        var respuesta = repository.findById(id)
+        var respuesta = repository.findByIdAndActivoTrue(id)
                 .orElseThrow(EntityNotFoundException::new);
         return ResponseEntity.ok(new DatosListaRespuesta(respuesta));
 
