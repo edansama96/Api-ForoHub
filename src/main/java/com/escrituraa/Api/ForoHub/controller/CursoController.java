@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import jakarta.persistence.EntityNotFoundException;
+
 
 import java.util.List;
 
@@ -47,9 +49,29 @@ public class CursoController {
     //Método para listar por ID
     @GetMapping("/{id}")
     public ResponseEntity<DatosListaCurso> buscarPorId(@PathVariable Long id){
-        return repository.findById(id)
-                .map(dc -> ResponseEntity.ok(new DatosListaCurso(dc)))// Si lo encuentra devuelve 200 con el objeto
-                .orElse(ResponseEntity.notFound().build());// Si no existe devuelve 404
+        /*
+         * Primera forma (comentada):
+         * Manejo manual del Optional:
+         * - Si el curso existe → lo convierte a DatosListaCurso y devuelve 200 OK.
+         * - Si no existe → devuelve 404 Not Found directamente.
+         *
+         * return repository.findById(id)
+         *         .map(dc -> ResponseEntity.ok(new DatosListaCurso(dc))) // Encontrado → 200 OK
+         *         .orElse(ResponseEntity.notFound().build());            // No encontrado → 404
+         */
+
+        /*
+         * Segunda forma (implementada):
+         * - Si el curso existe → se devuelve como DatosListaCurso con 200 OK.
+         * - Si no existe → se lanza EntityNotFoundException.
+         *   Esta excepción será capturada por un @RestControllerAdvice
+         *   para devolver 404 Not Found de forma centralizada.
+         */
+        var curso = repository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+
+        return ResponseEntity.ok(new DatosListaCurso(curso));
+
     }
 
 
