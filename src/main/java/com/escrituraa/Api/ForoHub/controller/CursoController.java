@@ -1,16 +1,15 @@
 package com.escrituraa.Api.ForoHub.controller;
 
 
-import com.escrituraa.Api.ForoHub.curso.Curso;
-import com.escrituraa.Api.ForoHub.curso.CursoRepository;
-import com.escrituraa.Api.ForoHub.curso.DatosCurso;
-import com.escrituraa.Api.ForoHub.curso.DatosListaCurso;
+import com.escrituraa.Api.ForoHub.domain.curso.Curso;
+import com.escrituraa.Api.ForoHub.domain.curso.CursoRepository;
+import com.escrituraa.Api.ForoHub.domain.curso.DatosCurso;
+import com.escrituraa.Api.ForoHub.domain.curso.DatosListaCurso;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -52,6 +51,7 @@ public class CursoController {
                 .map(dc -> ResponseEntity.ok(new DatosListaCurso(dc)))// Si lo encuentra devuelve 200 con el objeto
                 .orElse(ResponseEntity.notFound().build());// Si no existe devuelve 404
     }
+
 
 
 }

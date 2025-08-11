@@ -1,10 +1,10 @@
 package com.escrituraa.Api.ForoHub.controller;
 
-import com.escrituraa.Api.ForoHub.curso.Curso;
-import com.escrituraa.Api.ForoHub.curso.CursoRepository;
-import com.escrituraa.Api.ForoHub.topico.*;
-import com.escrituraa.Api.ForoHub.usuario.Usuario;
-import com.escrituraa.Api.ForoHub.usuario.UsuarioRepository;
+import com.escrituraa.Api.ForoHub.domain.curso.Curso;
+import com.escrituraa.Api.ForoHub.domain.curso.CursoRepository;
+import com.escrituraa.Api.ForoHub.domain.topico.*;
+import com.escrituraa.Api.ForoHub.domain.usuario.Usuario;
+import com.escrituraa.Api.ForoHub.domain.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 //Indica que es una clase de control para Topico

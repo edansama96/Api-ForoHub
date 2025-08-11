@@ -1,11 +1,10 @@
 package com.escrituraa.Api.ForoHub.controller;
 
 
-import com.escrituraa.Api.ForoHub.curso.CursoRepository;
-import com.escrituraa.Api.ForoHub.perfil.DatosListaPerfil;
-import com.escrituraa.Api.ForoHub.perfil.DatosPerfil;
-import com.escrituraa.Api.ForoHub.perfil.Perfil;
-import com.escrituraa.Api.ForoHub.perfil.PerfilRepository;
+import com.escrituraa.Api.ForoHub.domain.perfil.DatosListaPerfil;
+import com.escrituraa.Api.ForoHub.domain.perfil.DatosPerfil;
+import com.escrituraa.Api.ForoHub.domain.perfil.Perfil;
+import com.escrituraa.Api.ForoHub.domain.perfil.PerfilRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
