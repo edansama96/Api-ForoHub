@@ -3,6 +3,7 @@ package com.escrituraa.Api.ForoHub.controller;
 import com.escrituraa.Api.ForoHub.domain.perfil.Perfil;
 import com.escrituraa.Api.ForoHub.domain.perfil.PerfilRepository;
 import com.escrituraa.Api.ForoHub.domain.usuario.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -61,9 +62,29 @@ public class UsuarioController {
     //Método para buscar por id
     @GetMapping("/{id}")
     public ResponseEntity<DatosListaUsuarios> buscarPoId(@PathVariable Long id){
+       /*
+       * Primera forma (comentada):
+         * Manejo manual del Optional:
+         * - Si el curso existe → lo convierte a DatosListaCurso y devuelve 200 OK.
+         * - Si no existe → devuelve 404 Not Found directamente.
+         *
         return  repository.findByIdAndActivoTrue(id)
                 .map(du -> ResponseEntity.ok(new DatosListaUsuarios(du)))// Si lo encuentra devuelve 200 con el objeto
                 .orElse(ResponseEntity.notFound().build());// Si no existe devuelve 404
+        */
+        /*
+         * Segunda forma (implementada):
+         * - Si el curso existe → se devuelve como DatosListaCurso con 200 OK.
+         * - Si no existe → se lanza EntityNotFoundException.
+         *   Esta excepción será capturada por un @RestControllerAdvice
+         *   para devolver 404 Not Found de forma centralizada.
+         */
+        var usuario = repository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        return ResponseEntity.ok(new DatosListaUsuarios(usuario));
+
+
+
     }
 
     //Método para actualizar con put el topico

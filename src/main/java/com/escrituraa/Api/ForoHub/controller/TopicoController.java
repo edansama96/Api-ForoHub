@@ -5,6 +5,7 @@ import com.escrituraa.Api.ForoHub.domain.curso.CursoRepository;
 import com.escrituraa.Api.ForoHub.domain.topico.*;
 import com.escrituraa.Api.ForoHub.domain.usuario.Usuario;
 import com.escrituraa.Api.ForoHub.domain.usuario.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -74,9 +75,27 @@ public class TopicoController {
     //Método get para buscar por id
     @GetMapping("/{id}")
     public ResponseEntity<DatosListaTopico> obtenerPorId(@PathVariable Long id) {
+       /*
+         * Primera forma (comentada):
+         * Manejo manual del Optional:
+         * - Si el curso existe → lo convierte a DatosListaCurso y devuelve 200 OK.
+         * - Si no existe → devuelve 404 Not Found directamente.
+         *
         return repository.findByIdAndActivoTrue(id)
                 .map(topico -> ResponseEntity.ok(new DatosListaTopico(topico)))// Si lo encuentra devuelve 200 con el objeto
                 .orElse(ResponseEntity.notFound().build()); // Si no existe devuelve 404
+        */
+        /*
+         * Segunda forma (implementada):
+         * - Si el curso existe → se devuelve como DatosListaCurso con 200 OK.
+         * - Si no existe → se lanza EntityNotFoundException.
+         *   Esta excepción será capturada por un @RestControllerAdvice
+         *   para devolver 404 Not Found de forma centralizada.
+         */
+        var topicos = repository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        return  ResponseEntity.ok(new DatosListaTopico(topicos));
+
     }
 
     //Método para actualizar con put el topico

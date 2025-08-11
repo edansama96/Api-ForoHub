@@ -5,6 +5,7 @@ import com.escrituraa.Api.ForoHub.domain.perfil.DatosListaPerfil;
 import com.escrituraa.Api.ForoHub.domain.perfil.DatosPerfil;
 import com.escrituraa.Api.ForoHub.domain.perfil.Perfil;
 import com.escrituraa.Api.ForoHub.domain.perfil.PerfilRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,9 +49,28 @@ public class PerfilController {
     //Método para buscar por id
     @GetMapping("/{id}")
     public ResponseEntity<DatosListaPerfil> buscarPorId(@PathVariable Long id){
-        return repository.findById(id)
-                .map(dp -> ResponseEntity.ok(new DatosListaPerfil(dp)))// Si lo encuentra devuelve 200 con el objeto
-                .orElse(ResponseEntity.notFound().build());// Si no existe devuelve 404
+        /*
+         * Primera forma (comentada):
+         * Manejo manual del Optional:
+         * - Si el curso existe → lo convierte a DatosListaCurso y devuelve 200 OK.
+         * - Si no existe → devuelve 404 Not Found directamente.
+         *
+         * return repository.findById(id)
+         *         .map(dc -> ResponseEntity.ok(new DatosListaCurso(dc))) // Encontrado → 200 OK
+         *         .orElse(ResponseEntity.notFound().build());            // No encontrado → 404
+         */
+
+        /*
+         * Segunda forma (implementada):
+         * - Si el curso existe → se devuelve como DatosListaCurso con 200 OK.
+         * - Si no existe → se lanza EntityNotFoundException.
+         *   Esta excepción será capturada por un @RestControllerAdvice
+         *   para devolver 404 Not Found de forma centralizada.
+         */
+        var perfil = repository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        return ResponseEntity.ok(new DatosListaPerfil(perfil));
+
     }
 
 }
