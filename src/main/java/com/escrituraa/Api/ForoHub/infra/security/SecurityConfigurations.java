@@ -3,6 +3,8 @@ package com.escrituraa.Api.ForoHub.infra.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -45,6 +47,29 @@ public class SecurityConfigurations {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 🔹 Construye y retorna el SecurityFilterChain final.
                 .build();
+
+    }
+    /**
+     * Método que expone un AuthenticationManager como un bean de Spring.
+     *
+     * ¿Por qué es necesario?
+     * - En Spring Security, AuthenticationManager es el componente central que gestiona
+     *   el proceso de autenticación (validar usuario y contraseña).
+     * - Spring Boot lo crea internamente, pero si queremos inyectarlo (@Autowired) en otras
+     *   clases como controladores o servicios, debemos declararlo como un bean.
+     *
+     * @param configuration Objeto que contiene la configuración de autenticación definida
+     *                      en la aplicación (UserDetailsService, PasswordEncoder, etc.).
+     * @return Una instancia de AuthenticationManager lista para usarse en cualquier parte
+     *         del proyecto.
+     * @throws Exception Si ocurre un problema al obtener el AuthenticationManager.
+     */
+    //Método que devuleva un autenticationmanager
+    @Bean // Indica que este método devuelve un objeto que será administrado por el contenedor de Spring.
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        // Retorna el AuthenticationManager configurado internamente por Spring Security
+        // a partir de la AuthenticationConfiguration.
+        return configuration.getAuthenticationManager();
 
     }
 
