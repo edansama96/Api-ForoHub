@@ -31,7 +31,7 @@ public class Usuario implements UserDetails {
     private String correoElectronico;
     private String contrasena;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "usuarios_perfiles",// nombre de la tabla intermedia
             joinColumns = @JoinColumn(name = "usuario_id"), // el cruce por id del usaurio
